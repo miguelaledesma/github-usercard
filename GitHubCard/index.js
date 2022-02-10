@@ -3,7 +3,12 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+import axios from "axios";
+axios.get('https://api.github.com/users/miguelaledesma')
+.then(resp => {
+  document.querySelector('.cards').appendChild(gitHub(resp.data))
+})
+.catch(err)
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -29,6 +34,50 @@
 */
 
 const followersArray = [];
+
+function gitHub(gitObj){
+
+  const gitCard = document.createElement('div'); 
+  const image = document.createElement('img'); 
+  const cardInfo = document.createElement('div'); 
+  const name = document.createElement('h3'); 
+  const userName = document.createElement('p'); 
+  const location = document.createElement('p'); 
+  const profile = document.createElement('p'); 
+  const linkToProfile = document.createElement('a'); 
+  const followers = document.createElement('p'); 
+  const following = document.createElement('p'); 
+  const bio = document.createElement('p'); 
+
+  gitCard.classList.add('card'); 
+  
+  
+  image.src = gitObj.avatar_url;
+  image.alt = "github avatar"
+  name.textContent = gitObj.name; 
+  userName.textContent = gitObj.login; 
+  location.textContent= gitObj.location; 
+  profile.textContent = 'Profile'
+  linkToProfile.textContent = " Link to profile"; 
+  linkToProfile.href = gitObj.html_url; 
+  followers.textContent = `Followers: ${gitObj.followers_url}`
+  following.textContent = `Following: ${gitObj.following_url}`
+  bio.textContent = gitObj.bio
+
+  gitCard.appendChild(image); 
+  gitCard.appendChild(cardInfo);
+  cardInfo.appendChild(name); 
+  cardInfo.appendChild(userName); 
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile); 
+  profile.appendChild(linkToProfile); 
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following); 
+  cardInfo.appendChild(bio); 
+
+
+  return gitCard; 
+  }
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -58,3 +107,4 @@ const followersArray = [];
     luishrd
     bigknell
 */
+
