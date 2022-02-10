@@ -3,12 +3,24 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
 import axios from "axios";
-axios.get('https://api.github.com/users/miguelaledesma')
-.then(resp => {
-  document.querySelector('.cards').appendChild(gitHub(resp.data))
-})
-.catch(err)
+
+const followersArray = ['miguelaledesma', 'jl111', 'dustinmyers', 'justsml', 'luishrd', 'bigknell', 'tetondan'];
+
+for(let i = 0; i < followersArray.length; i++) {
+  getGitHub(followersArray[i])
+}
+
+function getGitHub(username){
+  axios.get(`https://api.github.com/users/${username}`)
+  .then(resp => {
+    document.querySelector('.cards').appendChild(gitHub(resp.data))
+  })
+  .catch(err => console.error(err))
+}
+
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -33,7 +45,7 @@ axios.get('https://api.github.com/users/miguelaledesma')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 function gitHub(gitObj){
 
@@ -50,7 +62,10 @@ function gitHub(gitObj){
   const bio = document.createElement('p'); 
 
   gitCard.classList.add('card'); 
-  
+  cardInfo.classList.add('card-info'); 
+  name.classList.add('name'); 
+  userName.classList.add('username'); 
+
   
   image.src = gitObj.avatar_url;
   image.alt = "github avatar"
@@ -60,8 +75,8 @@ function gitHub(gitObj){
   profile.textContent = 'Profile'
   linkToProfile.textContent = " Link to profile"; 
   linkToProfile.href = gitObj.html_url; 
-  followers.textContent = `Followers: ${gitObj.followers_url}`
-  following.textContent = `Following: ${gitObj.following_url}`
+  followers.textContent = `Followers: ${gitObj.followers}`
+  following.textContent = `Following: ${gitObj.following}`
   bio.textContent = gitObj.bio
 
   gitCard.appendChild(image); 
